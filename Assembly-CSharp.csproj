@@ -62,13 +62,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Prefabs\New Folder\salvar.cs" />
+    <Compile Include="Assets\Scripts\AudioManager.cs" />
+    <Compile Include="Assets\Scripts\BolaControl.cs" />
     <Compile Include="Assets\Scripts\BombaManager.cs" />
     <Compile Include="Assets\Scripts\BotaoLevel.cs" />
     <Compile Include="Assets\Scripts\EspinhosManager.cs" />
-    <Compile Include="Assets\Scripts\Forca.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\LevelManager.cs" />
-    <Compile Include="Assets\Scripts\Rotacao.cs" />
+    <Compile Include="Assets\Scripts\MoedasControl.cs" />
+    <Compile Include="Assets\Scripts\ScoreManager.cs" />
     <Compile Include="Assets\Scripts\TesteAbrir.cs" />
+    <Compile Include="Assets\Scripts\UiManager.cs" />
     <Compile Include="Assets\Scripts\VidaBomba.cs" />
     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\CircleObject.cs" />
     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\GroupLayer.cs" />

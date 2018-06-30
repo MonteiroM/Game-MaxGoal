@@ -37,7 +37,7 @@ public class LevelManager : MonoBehaviour {
             btnNovo.desbloqueadoBTN = level.desbloqueado;
             btnNovo.GetComponent<Button>().interactable = level.habilitado;
             btnNovo.GetComponentInChildren<Text>().enabled = level.txtAtivo;
-            btnNovo.GetComponent<Button>().onClick.AddListener(() => ClickLevel("level" + btnNovo.levelTxtBTN.text));
+            btnNovo.GetComponent<Button>().onClick.AddListener(() => ClickLevel("Level" + btnNovo.levelTxtBTN.text));
 
             btnClone.transform.SetParent(localBtn, false);
 
