@@ -18,7 +18,10 @@ public class VidaBomba : MonoBehaviour {
     IEnumerator Vida() {
 
         yield return new WaitForSeconds(0.5f);
-        Destroy(bombaRep.gameObject);
+        if (bombaRep != null)
+        {
+            Destroy(bombaRep.gameObject);
+        }
         Destroy(this.gameObject);
     }
 }

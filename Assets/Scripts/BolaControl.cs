@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class BolaControl : MonoBehaviour {
 
     //posição seta
-    [SerializeField] private Transform posStart;
+    
     //seta
     public GameObject setaGo;
     //angulo
@@ -17,19 +17,29 @@ public class BolaControl : MonoBehaviour {
     private Rigidbody2D bola;
     public float force = 0f;
     public GameObject seta2Img;
+    //paredes
+    //             ParedeDireita  ParedeEsquerda
+    private Transform paredeLD, paredeLE;
+    //MorteBola anim
+    [SerializeField]
+    private GameObject morteBolaAnim; 
 
     void Awake()
     {
         setaGo = GameObject.Find("Seta");
         seta2Img = setaGo.transform.GetChild(0).gameObject;
-        setaGo.SetActive(false);
+
+        //garantir que as setas começarão desativadas
+        setaGo.GetComponent<Image>().enabled = false;
+        seta2Img.GetComponent<Image>().enabled = false;
+        
+        paredeLD = GameObject.Find("ParedeDireita").GetComponent<Transform>();
+        paredeLE = GameObject.Find("ParedeEsquerda").GetComponent<Transform>();
+
     }
 
     // Use this for initialization
     void Start () {
-        
-        posStart = GameObject.Find("posStart").GetComponent<Transform>();
-        PosicionaBola();
         //Força
         bola = GetComponent<Rigidbody2D>();
 
@@ -46,16 +56,13 @@ public class BolaControl : MonoBehaviour {
         AplicaForca();
         ControlaForca();
 
+        Paredes();
+        
     }
     //Rotação
     void PosicionaSeta()
     {
         setaGo.GetComponent<Image>().rectTransform.position = this.transform.position;
-    }
-
-    void PosicionaBola()
-    {
-        this.gameObject.transform.position = posStart.position;
     }
 
     void RotacaoSeta()
@@ -106,16 +113,24 @@ public class BolaControl : MonoBehaviour {
     {
         if (GameManager.instance.tiro == 0) {
             liberaRotate = true;
-            setaGo.SetActive(true);
+
+            //para ativar a imagem das setas quando tocar na bola
+            setaGo.GetComponent<Image>().enabled = true;
+            seta2Img.GetComponent<Image>().enabled = true;
         }
     }
 
     void OnMouseUp()
     {
         liberaRotate = false;
-        setaGo.SetActive(false);
+        //desativar as setas quando a bola for arremessada
+        setaGo.GetComponent<Image>().enabled = false;
+        seta2Img.GetComponent<Image>().enabled = false;
+
         if (GameManager.instance.tiro == 0 && force > 0) {
             liberaTiro = true;
+            seta2Img.GetComponent<Image>().fillAmount = 0;
+
             AudioManager.instance.PlaySonsFX(1);
             GameManager.instance.tiro = 1;
         }
@@ -156,6 +171,32 @@ public class BolaControl : MonoBehaviour {
 
     void BolaDinamica() {
         this.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
+    }
+    //Morte Bola
+    //verificar se a bola passou do espaço determinado,se passou ela será destruida
+    void Paredes() {
+        if ((this.transform.position.x > paredeLD.position.x) || (this.transform.position.x < paredeLE.position.x)) {
+            Destroy(this.gameObject);
+            GameManager.instance.bolasEmCena -= 1;
+            GameManager.instance.bolasNum -= 1;
+        }
 
     }
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Morte")) {
+            Instantiate(morteBolaAnim, transform.position, Quaternion.identity);//instanciar a aniamação da morte da bola 
+            Destroy(this.gameObject);
+            GameManager.instance.bolasEmCena -= 1;
+            GameManager.instance.bolasNum -= 1;
+        }
+
+        if (collision.gameObject.CompareTag("Win")) {
+            GameManager.instance.win = true;
+            int temp = OndeEstou.instance.fases + 1;
+            temp++;
+            PlayerPrefs.SetInt("Level" + temp, 1);
+        }
+    }
+
 }

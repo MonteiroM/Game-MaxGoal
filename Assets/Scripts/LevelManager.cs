@@ -51,8 +51,14 @@ public class LevelManager : MonoBehaviour {
 
     }
 
-	// Use this for initialization
-	void Start () {
+    void Awake()
+    {
+        Destroy(GameObject.Find("UiManager(Clone)"));
+        Destroy(GameObject.Find("GameManager(Clone)"));
+    }
+
+    // Use this for initialization
+    void Start () {
         
         ListaAdd();
 	}
