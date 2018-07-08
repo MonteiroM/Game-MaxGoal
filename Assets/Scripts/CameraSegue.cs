@@ -20,7 +20,8 @@ public class CameraSegue : MonoBehaviour {
             }
 
             if (bola == null && GameManager.instance.bolasEmCena > 0) {
-                bola = GameObject.Find("Bola(Clone)").GetComponent<Transform>();
+
+                bola = GameObject.FindGameObjectWithTag("Bola").GetComponent<Transform>();
 
             } else if (GameManager.instance.bolasEmCena > 0) {
                 Vector3 posCamera = transform.position;

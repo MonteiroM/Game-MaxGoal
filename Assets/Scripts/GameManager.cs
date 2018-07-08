@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance;
 
     //Bola
-   [SerializeField] private GameObject bola;
+   [SerializeField] private GameObject[] bola;
     public int bolasNum = 2;
     public bool bolaMorreu = false;
     public int bolasEmCena = 0;
@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour {
     public bool win;
     public int tiro = 0;
     public bool jogoComecou;
+
+    private bool adsUmaVez = false;
 
     void Awake()
     {
@@ -64,7 +66,7 @@ public class GameManager : MonoBehaviour {
             if (bolasNum > 0 && bolasEmCena == 0 && Camera.main.transform.position.x <= 0.05f)
             {
 
-                Instantiate(bola, new Vector2(pos.position.x, pos.position.y), Quaternion.identity);
+                Instantiate(bola[OndeEstou.instance.bolaEmUso], new Vector2(pos.position.x, pos.position.y), Quaternion.identity);
                 bolasEmCena += 1;
                 tiro = 0;
             }
@@ -73,7 +75,7 @@ public class GameManager : MonoBehaviour {
             
                 if (bolasNum > 0 && bolasEmCena == 0)
                 {
-                    Instantiate(bola, new Vector2(pos.position.x, pos.position.y), Quaternion.identity);
+                    Instantiate(bola[OndeEstou.instance.bolaEmUso], new Vector2(pos.position.x, pos.position.y), Quaternion.identity);
                     bolasEmCena += 1;
                     tiro = 0;
                 }
@@ -83,7 +85,7 @@ public class GameManager : MonoBehaviour {
     }
 
     void Carrega(Scene cena, LoadSceneMode modo) {
-        if (OndeEstou.instance.fases != 4) {
+        if (OndeEstou.instance.fases != 1) {
             pos = GameObject.Find("posStart").GetComponent<Transform>();
             StartGame();
         }
@@ -93,6 +95,10 @@ public class GameManager : MonoBehaviour {
 
         UiManager.instance.GameOverUI();
         jogoComecou = false;
+        if (!adsUmaVez) {
+            AdsUnity.instance.ShowAds();
+            adsUmaVez = true;
+        }
     }
 
     void WinGame() {
@@ -106,6 +112,7 @@ public class GameManager : MonoBehaviour {
         bolasEmCena = 0;
         win = false;
         UiManager.instance.StartUi();
+        adsUmaVez = false;
     }
     
 }

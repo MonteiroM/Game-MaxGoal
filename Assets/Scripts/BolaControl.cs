@@ -22,7 +22,9 @@ public class BolaControl : MonoBehaviour {
     private Transform paredeLD, paredeLE;
     //MorteBola anim
     [SerializeField]
-    private GameObject morteBolaAnim; 
+    private GameObject morteBolaAnim;
+    //toque
+    private Collider2D toqueCol;
 
     void Awake()
     {
@@ -117,6 +119,8 @@ public class BolaControl : MonoBehaviour {
             //para ativar a imagem das setas quando tocar na bola
             setaGo.GetComponent<Image>().enabled = true;
             seta2Img.GetComponent<Image>().enabled = true;
+
+            toqueCol = GameObject.FindGameObjectWithTag("Toque").GetComponent<Collider2D>();
         }
     }
 
@@ -133,6 +137,8 @@ public class BolaControl : MonoBehaviour {
 
             AudioManager.instance.PlaySonsFX(1);
             GameManager.instance.tiro = 1;
+
+            toqueCol.enabled = false;
         }
     }
     //Força

@@ -51,7 +51,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce6a9a4fcc7c4944e99508d5963cb21e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bola: {fileID: 1098057576981498, guid: e9f9ac18c8bf19342a6704b1fef54dd9, type: 2}
+  bola:
+  - {fileID: 1098057576981498, guid: 80ef8d9e391fd9d48aa0aff1ec7ef47a, type: 2}
+  - {fileID: 1098057576981498, guid: 73f17881fe8f3fd4489ada65f86dcefc, type: 2}
+  - {fileID: 1098057576981498, guid: 06abef3192bed8b45b072f74d021fdd8, type: 2}
+  - {fileID: 1098057576981498, guid: c455635ab583ef840b2df26181a2ef05, type: 2}
+  - {fileID: 1098057576981498, guid: be44cebbc699d34439bc7aec78514ea4, type: 2}
+  - {fileID: 1098057576981498, guid: 321de7d618b3dbe4ca8be4f5cff56b56, type: 2}
   bolasNum: 3
   bolaMorreu: 0
   bolasEmCena: 0

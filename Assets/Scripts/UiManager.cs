@@ -13,6 +13,8 @@ public class UiManager : MonoBehaviour {
     [SerializeField]
     private Button pauseBtn,pauseBtn_Return;//botoes de pause
     [SerializeField]
+    private Button jogarNovBtn;//botão de jogar novamento abaixo do botao de pause
+    [SerializeField]
     private Button novamenteBtnLose, levelBtnLose;//Botões Lose
     private Button novamenteBtnWin, levelBtnWin, avancarBtnWin;//Botões Lose
 
@@ -40,7 +42,7 @@ public class UiManager : MonoBehaviour {
 
     void PegaDados() {
 
-        if (OndeEstou.instance.fases != 4)
+        if (OndeEstou.instance.fases != 1)
         {
             //Elementos da UI PontosUI== Moedas, BolasUI== Quantidade de bolas
             pontosUI = GameObject.Find("PontosUI").GetComponent<Text>();
@@ -52,6 +54,8 @@ public class UiManager : MonoBehaviour {
             //Pause encontrar os butoes
             pauseBtn = GameObject.Find("Btn_Pause").GetComponent<Button>();
             pauseBtn_Return = GameObject.Find("btn_Resume").GetComponent<Button>();
+            //JogarNov
+            jogarNovBtn = GameObject.Find("Btn_JogarNov").GetComponent<Button>();
             //You Lose encontrar os butoes
             novamenteBtnLose = GameObject.Find("btn_JogarNovamenteLose").GetComponent<Button>();
             levelBtnLose = GameObject.Find("btn_MenuFasesLose").GetComponent<Button>();
@@ -59,9 +63,13 @@ public class UiManager : MonoBehaviour {
             novamenteBtnWin = GameObject.Find("btn_JogarNovamenteWin").GetComponent<Button>();
             levelBtnWin = GameObject.Find("btn_MenuFasesWin").GetComponent<Button>();
             avancarBtnWin = GameObject.Find("btn_AvancarWin").GetComponent<Button>();
+
+
             //Pausar chamada dos metodos para os butões
             pauseBtn.onClick.AddListener(Pause);//para pausar
             pauseBtn_Return.onClick.AddListener(PauseReturn);//para sair do pause
+            //jogarNov
+            jogarNovBtn.onClick.AddListener(JogarNovamente);
             //You Lose chamada dos metodos para os butões
             novamenteBtnLose.onClick.AddListener(JogarNovamente);
             levelBtnLose.onClick.AddListener(Levels);
@@ -129,8 +137,12 @@ public class UiManager : MonoBehaviour {
     }
 
     void JogarNovamente() {
-        if (!GameManager.instance.win)
-        {
+        if (!GameManager.instance.win && AdsUnity.instance.adsBtnAcionado == true) {
+
+            SceneManager.LoadScene(OndeEstou.instance.fases);
+            AdsUnity.instance.adsBtnAcionado = false;
+
+        }else if(!GameManager.instance.win && AdsUnity.instance.adsBtnAcionado == false) {
             SceneManager.LoadScene(OndeEstou.instance.fases);
             resultado = moedasNumDepois - moedasNumAntes;
             ScoreManager.instance.PerdeMoedas(resultado);
@@ -143,7 +155,13 @@ public class UiManager : MonoBehaviour {
     }
 
     void Levels() {
-        if (!GameManager.instance.win) {
+        if (!GameManager.instance.win && AdsUnity.instance.adsBtnAcionado == true) {
+            
+            SceneManager.LoadScene("LEVEL_GAME");
+            AdsUnity.instance.adsBtnAcionado = false;
+
+        }
+        else if (!GameManager.instance.win && AdsUnity.instance.adsBtnAcionado == false) {
             resultado = moedasNumDepois - moedasNumAntes;
             ScoreManager.instance.PerdeMoedas(resultado);
             resultado = 0;
@@ -151,7 +169,7 @@ public class UiManager : MonoBehaviour {
         }
         else {
             resultado = 0;
-            SceneManager.LoadScene(4);
+            SceneManager.LoadScene("LEVEL_GAME");
         }
 
     }

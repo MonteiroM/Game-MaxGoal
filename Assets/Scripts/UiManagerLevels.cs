@@ -10,6 +10,8 @@ public class UiManagerLevels : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+        ScoreManager.instance.UpdateScore();
        // moedasLevels = GameObject.Find("PontosUi2").GetComponent<Text>();
         moedasLevels.text = PlayerPrefs.GetInt("moedasSave").ToString();
 	}

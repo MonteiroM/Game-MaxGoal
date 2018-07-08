@@ -23,6 +23,7 @@ public class BolasShop : MonoBehaviour {
 
     void Start () {
         FillList();
+        //PlayerPrefs.DeleteAll();
 
     }
 	
@@ -52,9 +53,18 @@ public class BolasShop : MonoBehaviour {
 
             }
 
+            if (PlayerPrefs.HasKey("BTNS" + item.bolaID) && b.bolasComprou) {
+                item.btnComprar.GetComponent<CompraBola>().btnText.text = PlayerPrefs.GetString("BTNS"+item.bolaID);
+
+            }
+
             if (b.bolasComprou){
                 item.bolaSprite.sprite = Resources.Load<Sprite>("Sprites/" + b.bolasNomeSprite);
                 item.bolaPreco.text = "Comprado!";
+
+                if (!PlayerPrefs.HasKey("BTNS"+item.bolaID)) {
+                    item.btnComprar.GetComponent<CompraBola>().btnText.text = "Usand o!";
+                }
             }
             else {
                 item.bolaSprite.sprite = Resources.Load<Sprite>("Sprites/" + b.bolasNomeSprite + "_cinza");
@@ -91,6 +101,17 @@ public class BolasShop : MonoBehaviour {
 
             if (bolasSup.bolaID == idBolas) {
                 PlayerPrefs.SetInt("BTN" + bolasSup.bolaID, bolasSup.btnComprar ? 1 : 0);
+            }
+        }
+
+    }
+
+    public void SalvaNolasLojaText(int idBolas, string s) {
+        for (int i = 0; i < bolasList.Count; i++) {
+            BolasSuporte bolasSup = bolasSuporteList[i].GetComponent<BolasSuporte>();
+
+            if (bolasSup.bolaID == idBolas) {
+                PlayerPrefs.SetString("BTNS" + bolasSup.bolaID, s);
             }
         }
 
